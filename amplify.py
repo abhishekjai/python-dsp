@@ -25,6 +25,7 @@ fout.setparams((fin.getnchannels(),
                 'not compressed'))
 
 num_frames = fin.getnframes()
+num_channels = fin.getnchannels()
 
 def transform(data,scale_factor):
     new_data = int(data * scale_factor)
@@ -36,11 +37,11 @@ def transform(data,scale_factor):
 
 while (fin.tell() < num_frames):
     frame = fin.readframes(1)
-    frame_data = struct.unpack('<h', frame)
-    out_frame = transform(frame_data[0],scale_factor)
-    print frame_data[0], out_frame
-    packed_out_data = struct.pack('h', out_frame)
-    fout.writeframes(packed_out_data)
+    frame_data = struct.unpack('%dh'%(num_channels), frame)
+    for data in frame_data:
+        out_frame = transform(data,scale_factor)
+        packed_out_data = struct.pack('h', out_frame)
+        fout.writeframes(packed_out_data)
 
 fout.close()  
 fin.close()
