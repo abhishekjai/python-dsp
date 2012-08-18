@@ -17,7 +17,12 @@ scale_factor = float(sys.argv[3])
 
 fin = wave.open(in_filename,'r')
 fout = wave.open(out_filename,'w')
-fout.setparams((2, 2, 44100, 0, 'NONE', 'not compressed'))
+fout.setparams((fin.getnchannels(), 
+                fin.getsampwidth(), 
+                fin.getframerate(), 
+                0,
+                'NONE',
+                'not compressed'))
 
 num_frames = fin.getnframes()
 
