@@ -27,13 +27,17 @@ fout.setparams((fin.getnchannels(),
 num_frames = fin.getnframes()
 num_channels = fin.getnchannels()
 
+def check_clip(sample):
+    if sample > 32767:
+        sample = 32767
+    if sample < -32768:
+        sample = -32768
+    return sample
+
 def transform(data,scale_factor):
-    new_data = int(data * scale_factor)
-    if new_data > 32767:
-        new_data = 32767
-    if new_data < -32768:
-        new_data = -32768
-    return new_data
+    sample = int(data * scale_factor)
+    sample = check_clip(new_data)
+    return sample
 
 while (fin.tell() < num_frames):
     frame = fin.readframes(1)
