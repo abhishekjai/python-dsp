@@ -8,7 +8,7 @@ import sys
 import math
 
 if len(sys.argv) < 3:
-    print "Usage: sine.py out_file frequency"
+    print "Usage: generate_sine.py out_file frequency"
     sys.exit(1)
 
 out_filename = sys.argv[1]
