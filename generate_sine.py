@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# generate_sine.py: Generates a sine wav with the given frequency
+# generate_sine.py: Generates a sine wave with the given frequency
  
 import wave
 import struct
