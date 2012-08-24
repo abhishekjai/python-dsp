@@ -48,3 +48,24 @@ class AudioFile:
             sample = -32768
         return sample
 
+    def getnframes(self):
+        """Return the number of frames in the underlying file."""
+        return self.file_handle.getnframes()
+
+    def getnchannels(self):
+        """Return the number of channels in the underlying file."""
+        return self.file_handle.getnchannels()
+
+    def tell(self):
+        """Return the current read position in the underlying file."""
+        return self.file_handle.tell()
+
+    def read(self, num_samples):
+        """Read a number of samples from the underlying file.
+           This returns a tuple containing the requested number of
+           samples.  For multichannel files the tuple will alternate
+           between each channel."""
+        frame = self.file_handle.readframes(num_samples)
+        frame_data = struct.unpack('%dh'%(self.getnchannels()), frame)
+        return frame_data
+
