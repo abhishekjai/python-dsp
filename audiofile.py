@@ -6,10 +6,14 @@ import wave
 import struct
 
 class AudioFile:
-    """Container class for an audio file.  This class allows
-       for reading and writing wave files with translation of
-       packed data into unpacked data for manipulation by other
-       programs."""
+    """
+    Container class for an audio file.  This class allows
+    for reading and writing wave files with translation of
+    packed data into unpacked data for manipulation by other
+    programs.
+    Mostly this acts as a proxy for the wave module.  But this
+    class also abstracts packing/unpacking data away from clients.
+    """
 
     def __init__(self,filename,mode):
         """Creates a new AudioFile instance with the given filename.  
@@ -19,12 +23,12 @@ class AudioFile:
             channels = 1
             sample_width = 2
             frame_rate  = 44100
-            self.file_handle.setparams((channels,
-                                        sample_width,
-                                        frame_rate,
-                                        0,
-                                        'NONE',
-                                        'not compressed'))
+            self.setparams(channels,
+                           sample_width,
+                           frame_rate,
+                           0,
+                           'NONE',
+                           'not compressed')
 
     def close(self):
         """Close the underlying file represented by this instance."""
@@ -55,6 +59,23 @@ class AudioFile:
     def getnchannels(self):
         """Return the number of channels in the underlying file."""
         return self.file_handle.getnchannels()
+
+    def getframerate(self):
+        """Return the framerate of the udnerlying file."""
+        return self.file_handle.getframerate()
+
+    def getsampwidth(self):
+        """Return the sample width of the udnerlying file."""
+        return self.file_handle.getsampwidth()
+
+    def setparams(self,nchannels,sampwidth,framerate,nframes,comptype,compname):
+        """Sets parameters in the wave file header."""
+        self.file_handle.setparams((nchannels,
+                                    sampwidth,
+                                    framerate,
+                                    nframes,
+                                    comptype,
+                                    compname))
 
     def tell(self):
         """Return the current read position in the underlying file."""
